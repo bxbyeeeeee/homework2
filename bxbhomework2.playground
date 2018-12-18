@@ -1,0 +1,203 @@
+/******11111111111111***********/
+let dic = [ ["name":"belle","age":"18"],["name":"beibei","age":"20"],["name":"yeeeeee","age":"25"] ]
+let string = dic.map({$0["name"]!})
+print(string)
+
+
+/******22222222222222***********/
+let string = ["yeeeeee","12331dwwws","31332","dx21sd3e","1234567890"]
+let str = string.filter({ Int($0) != nil })
+print(str)
+
+
+/******33333333333333***********/
+
+var string1 = string.reduce("",{ $0 + "," + $1 })
+string1.remove(at:string1.startIndex)
+print(string1)
+
+
+/******444444444444444***********/
+var arr1 = [10,24,56,32,1]
+let temp = arr1.reduce((max:arr1[0], min:arr1[0], sum:0),{(max:max($0.max,$1), min:min($0.min,$1), $0.sum+$1)})
+print("最大值、最小值和总和分别为：\(temp)")
+
+
+/******555555555555555***********/
+func x1(x:Int) -> Int { return x }  // Int -> Int
+func x2(x:Int) {}    // Int -> void
+func x3(x:String) {}   // String -> void
+func x4(x:Int) -> Int { return x*2 }    // Int -> Int
+func x5() -> Double { return 0 }     // void -> Int
+let xArr:[Any] = [x1, x2, x3, x4, x5]
+let xName = ["x1", "x2", "x3", "x4", "x5"]
+var i = -1
+for value in xArr {
+    i = i+1
+    if value is (Int) -> Int{
+        print(xName[i])
+    }
+}
+
+
+/*******666666666666666********/
+extension Int {
+    func sqrt() -> Double {
+        return Double(self)
+    }
+}
+var x:Int = 9
+print(x.sqrt())
+
+
+/*****777777777777777********/
+func MaxMin <T:Comparable> (data:[T]) -> (max:T, min:T) {
+    var max = data[0]
+    var min = data[0]
+    for i in data {
+        if max < i {
+            max = i
+        }
+        else if i < min {
+            min = i
+        }
+    }
+    return (max,min)
+}
+
+let dataInt:[Int] = [1,14,-3,98,0]
+let dataDouble:[Double] = [1.0,12.6,4.8]
+let dataString:[String] = ["duwc","yeeee","YEEees","decA","iOS"]
+print("max  min")
+print(MaxMin(data:dataInt))
+print(MaxMin(data:dataDouble))
+print(MaxMin(data:dataString))
+
+
+
+
+
+/*************************************************************/
+/* 我的第一个 Swift 程序 */
+enum Gender{
+	case male
+	case female
+}
+
+class Person{
+	var firstName:String
+	var lastName:String
+	var age:Int
+	var gender:Gender
+	var fullName:String{
+		return firstName + " " + lastName
+	}
+	
+	init(firstName:String, lastName:String, age:Int,gender:Gender){
+		self.firstName = firstName
+		self.lastName = lastName
+		self.age = age
+		self.gender = gender
+	}
+	convenience init(firstName:String){
+		self.init(firstName:firstName, lastName:"", age:18,gender:Gender.female)
+ 	}
+	func description() -> String{
+		return "name:\(fullName)   age:\(age)    gender:\(gender)"
+	}
+
+    func run() {
+        print("Person \(self.fullName) is running")
+    }
+}
+
+enum Department {
+    case x
+    case y
+    case z
+}
+
+protocol SchoolProtocol {
+    var department:Department { get set }
+    func lendBook()
+}
+
+var person1 = Person(firstName:"bao", lastName:"beibei", age:20, gender:Gender.female)
+var person2 = Person(firstName:"belle")
+var person3 = Person(firstName:"yeeeeee", lastName:"beibei", age:20, gender:Gender.female)
+var person4 = Person(firstName:"belle")
+print(person1.description())
+person1.run()
+print(person2.description())
+person2.run()
+print(person3.description())
+person3.run()
+print(person4.description())
+person4.run()
+
+
+
+
+
+
+class Teacher:Person,SchoolProtocol{
+	var title:String
+	var department:Department
+	init(firstName:String, lastName:String, age:Int, gender:Gender, title:String, department:Department){
+		self.title = title
+		self.department = department
+		super.init(firstName:firstName, lastName:lastName, age:age,gender:gender)
+	}
+	override func description() -> String{
+		return super.description() + "  title:\(title)  " + "department:\(department)"
+	}
+	override func run() {
+        print("Teacher \(self.fullName) is runnning")
+    }
+    func lendBook() {
+        print("teacher")
+    }
+}
+
+   
+
+class Student:Person,SchoolProtocol{
+	var stuNo:String
+	var department:Department
+	init(firstName:String, lastName:String, age:Int, gender:Gender, stuNo: String, department:Department){
+        self.stuNo = stuNo
+        self.department = department
+        super.init(firstName:firstName, lastName:lastName, age:age, gender:gender)
+    }
+	override func description() -> String{
+		return super.description() + "  stuNo:\( stuNo)  " + "department:\(department)"
+	}
+	 override func run() {
+        print("Student \(self.fullName) is runnning")
+    }
+    func lendBook() {
+        print("student")
+    }
+}
+
+
+var teacher = Teacher(firstName:"ye", lastName:"eeee", age:20, gender:Gender.male, title:"iOS", department:Department.x)
+var student = Student(firstName:"bao", lastName:"beibei", age:20, gender:Gender.female, stuNo:"01", department:Department.y)
+var person = Person(firstName:"belle")
+var persons = [teacher, student, person]
+for a in persons {
+    a.run()
+    if let b = a as? Student {
+        b.lendBook()
+    }
+    else if let b = a as? Teacher {
+        b.lendBook()
+    }
+}
+
+
+
+
+
+
+
